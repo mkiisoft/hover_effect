@@ -1,0 +1,18 @@
+name: hover_effect
+description: Hover Card Effect.
+version: 0.0.1
+author: Mariano Zorrilla <mkiisoft@gmail.com>
+homepage: https://github.com/mkiisoft/hover_effect
+
+environment:
+  sdk: ">=2.7.0 <3.0.0"
+
+dependencies:
+  flutter:
+    sdk: flutter
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+
+flutter:
