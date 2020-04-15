@@ -1,6 +1,6 @@
 # Changes
 
-## 0.5.0
+## 0.5.1
 * Added Pan/Drag functionality, Click functionality and Custom BoxShadow
 
 ## 0.0.1
