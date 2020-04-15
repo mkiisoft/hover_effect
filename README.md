@@ -4,7 +4,7 @@ Hover - Tilt 3D Effect
 
 ## Demo
 
-[<img src="/assets/demo.gif" width=350>](https://mkiisoft.github.io/hover_effect)
+[<img src="https://raw.githubusercontent.com/mkiisoft/hover_effect/master/assets/demo.gif" width=560>](https://mkiisoft.github.io/hover_effect)
 
 ## Getting Started
 
