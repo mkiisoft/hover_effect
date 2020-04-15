@@ -1,6 +1,10 @@
 # hover_effect
 
-Hover Card Effect
+Hover - Tilt 3D Effect
+
+## Demo
+
+[<img src="/assets/demo.gif" width=350>](https://mkiisoft.github.io/hover_effect)
 
 ## Getting Started
 
@@ -16,50 +20,43 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Flutter Demo',
+      title: 'Hover - Tilt 3D Effect',
       theme: ThemeData(
         primarySwatch: Colors.blue,
         visualDensity: VisualDensity.adaptivePlatformDensity,
       ),
       home: Material(
-        child: Center(
-          child: Container(
-            width: 150,
-            height: 300,
-            child: HoverCard(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Text(
+              'Hover - Tilt 3D Effect',
+              style: TextStyle(
+                  fontSize: 30,
+                  fontWeight: FontWeight.w700,
+                  color: Colors.black,
+                  letterSpacing: 2),
+            ),
+            SizedBox(height: 50),
+            Container(
+              width: 150,
+              height: 300,
+              child: HoverCard(
                 builder: (context, hovering) {
                   return Container(
-                    color: Colors.red,
+                    color: Color(0xFFE9E9E9),
                     child: Center(
-                      child: GridView.builder(
-                        shrinkWrap: true,
-                        gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(crossAxisCount: 2, childAspectRatio: 1),
-                        itemBuilder: (context, index) {
-                          return Center(
-                            child: Container(
-                              width: 30,
-                              height: 30,
-                              decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(15),
-                                gradient: LinearGradient(
-                                  colors: [
-                                    Color(0xA0000000),
-                                    Color(0xFF202020),
-                                  ],
-                                  begin: Alignment.topRight,
-                                  end: Alignment.bottomLeft,
-                                )
-                              ),
-                            ),
-                          );
-                        },
-                        itemCount: 6,
-                      ),
+                      child: FlutterLogo(size: 100),
                     ),
                   );
                 },
-                depth: 10),
-          ),
+                depth: 10,
+                depthColor: Colors.grey[500],
+                onTap: () => print('Hello, World!'),
+                shadow: BoxShadow(color: Colors.purple[200], blurRadius: 30, spreadRadius: -20, offset: Offset(0, 40)),
+              ),
+            ),
+          ],
         ),
       ),
     );

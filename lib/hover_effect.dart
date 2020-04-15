@@ -4,21 +4,29 @@ class HoverCard extends StatefulWidget {
   final Widget Function(BuildContext context, bool isHovered) builder;
   final double depth;
   final Color depthColor;
-  final VoidCallback onTap;
+  final BoxShadow shadow;
+  final GestureTapCallback onTap;
 
   const HoverCard({
     Key key,
     @required this.builder,
-    this.depthColor = const Color(0xFF424242),
-    this.depth = 1,
     this.onTap,
+    this.depth = 1,
+    this.depthColor = const Color(0xFF424242),
+    this.shadow = const BoxShadow(
+      offset: Offset(0, 60),
+      color: Color.fromARGB(120, 0, 0, 0),
+      blurRadius: 22,
+      spreadRadius: -20,
+    ),
   }) : super(key: key);
 
   @override
   HoverCardState createState() => HoverCardState();
 }
 
-class HoverCardState extends State<HoverCard> with SingleTickerProviderStateMixin {
+class HoverCardState extends State<HoverCard>
+    with SingleTickerProviderStateMixin {
   double localX = 0;
   double localY = 0;
   bool defaultPosition = true;
@@ -88,17 +96,38 @@ class HoverCardState extends State<HoverCard> with SingleTickerProviderStateMixi
             decoration: BoxDecoration(
               color: widget.depthColor,
               borderRadius: BorderRadius.circular(15),
-              boxShadow: [
-                BoxShadow(
-                  offset: Offset(0, 60),
-                  color: Color.fromARGB(120, 0, 0, 0),
-                  blurRadius: 22,
-                  spreadRadius: -20,
-                ),
-              ],
+              boxShadow: [widget.shadow],
             ),
             child: GestureDetector(
-              onTap: widget?.onTap,
+              onPanUpdate: (details) {
+                setState(() {
+                  defaultPosition = false;
+                  if (details.localPosition.dx > 0 &&
+                      details.localPosition.dy > 0) {
+                    if (details.localPosition.dx < size.width &&
+                        details.localPosition.dy < size.height) {
+                      localX = details.localPosition.dx;
+                      localY = details.localPosition.dy;
+                    }
+                  }
+                });
+              },
+              onPanEnd: (_) {
+                setState(() {
+                  isHover = true;
+                  defaultPosition = false;
+                });
+                _resetAnimation(size, Offset(localX, localY));
+                animationController.forward();
+              },
+              onPanCancel: () {
+                setState(() {
+                  isHover = false;
+                });
+                _resetAnimation(size, Offset(localX, localY));
+                animationController.forward();
+              },
+              onTap: widget.onTap,
               child: MouseRegion(
                 onEnter: (_) {
                   if (mounted)
@@ -132,14 +161,22 @@ class HoverCardState extends State<HoverCard> with SingleTickerProviderStateMixi
                 child: ClipRRect(
                   borderRadius: BorderRadius.circular(10),
                   child: Container(
-                    color: Color(0xFFCCCCCC),
+                    color: widget.depthColor,
                     child: Stack(
                       children: [
                         Positioned.fill(
                           child: Transform(
                             transform: Matrix4.identity()
-                              ..translate(defaultPosition ? 0.0 : (widget.depth * (percentageX / 50) + -widget.depth),
-                                  defaultPosition ? 0.0 : (widget.depth * (percentageY / 50) + -widget.depth), 0.0),
+                              ..translate(
+                                  defaultPosition
+                                      ? 0.0
+                                      : (widget.depth * (percentageX / 50) +
+                                          -widget.depth),
+                                  defaultPosition
+                                      ? 0.0
+                                      : (widget.depth * (percentageY / 50) +
+                                          -widget.depth),
+                                  0.0),
                             alignment: FractionalOffset.center,
                             child: ClipRRect(
                               borderRadius: BorderRadius.circular(10),
