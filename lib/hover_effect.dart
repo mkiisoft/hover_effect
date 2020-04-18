@@ -11,7 +11,7 @@ class HoverCard extends StatefulWidget {
     Key key,
     @required this.builder,
     this.onTap,
-    this.depth = 1,
+    this.depth = 0,
     this.depthColor = const Color(0xFF424242),
     this.shadow = const BoxShadow(
       offset: Offset(0, 60),
@@ -25,8 +25,7 @@ class HoverCard extends StatefulWidget {
   HoverCardState createState() => HoverCardState();
 }
 
-class HoverCardState extends State<HoverCard>
-    with SingleTickerProviderStateMixin {
+class HoverCardState extends State<HoverCard> with SingleTickerProviderStateMixin {
   double localX = 0;
   double localY = 0;
   bool defaultPosition = true;
@@ -38,6 +37,12 @@ class HoverCardState extends State<HoverCard>
   void initState() {
     super.initState();
     _setupAnimation();
+  }
+
+  @override
+  void dispose() {
+    animationController.dispose();
+    super.dispose();
   }
 
   void _setupAnimation() {
@@ -171,11 +176,11 @@ class HoverCardState extends State<HoverCard>
                                   defaultPosition
                                       ? 0.0
                                       : (widget.depth * (percentageX / 50) +
-                                          -widget.depth),
+                                      -widget.depth),
                                   defaultPosition
                                       ? 0.0
                                       : (widget.depth * (percentageY / 50) +
-                                          -widget.depth),
+                                      -widget.depth),
                                   0.0),
                             alignment: FractionalOffset.center,
                             child: ClipRRect(
@@ -188,12 +193,12 @@ class HoverCardState extends State<HoverCard>
                           children: [
                             Transform(
                               transform: Matrix4.translationValues(
-                                (size.width / 2) - localX,
+                                (size.width - 50) - localX,
                                 (size.height - 50) - localY,
                                 0.0,
                               ),
                               child: AnimatedOpacity(
-                                opacity: defaultPosition ? 0 : 1,
+                                opacity: defaultPosition ? 0 : 0.99,
                                 duration: Duration(milliseconds: 500),
                                 curve: Curves.decelerate,
                                 child: Container(

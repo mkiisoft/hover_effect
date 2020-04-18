@@ -2,6 +2,8 @@
 
 Hover - Tilt 3D Effect
 
+Takes any child widget and enables Hover/Tilt 3D functionality to it
+
 ## Demo
 
 [<img src="https://raw.githubusercontent.com/mkiisoft/hover_effect/master/assets/demo.gif" width=560>](https://mkiisoft.github.io/hover_effect)
